@@ -18,7 +18,7 @@ const orderSchema = new Schema(
                     type: Schema.Types.ObjectId,
                     ref: 'Product',
                 },
-                size: {
+                kind: {
                     type: String,
                     required: true,
                 },

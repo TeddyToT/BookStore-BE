@@ -57,7 +57,7 @@ const productSchema = new Schema(
 
         },
         authorId: {
-            type: Schema.Authors.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Authors',
             required: true,
         }
