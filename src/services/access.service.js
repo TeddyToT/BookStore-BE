@@ -1,4 +1,4 @@
-const ForgetModel = require('../models/forget.model')
+const ForgetModel = require('../models/forgetPass.model')
 const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken')
@@ -70,7 +70,7 @@ class AccessService {
                     subject: 'Đăng ký thành công - Bookstore',
                     html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px;">
-                            <h2 style="color:rgb(52, 145, 221); text-align: center;">Welcome to Coffee Shop!</h2>
+                            <h2 style="color:rgb(52, 145, 221); text-align: center;">Welcome to Book Store!</h2>
                             <p style="font-size: 18px; color: #333;">Xin chào bạn,</p>
                             <p style="font-size: 16px; color: #333;">
                                 Chúng tôi rất vui mừng khi có bạn tham gia. Bạn đã đăng ký tài khoản thành công với BookStore.
@@ -191,13 +191,13 @@ class AccessService {
                 var mailoptions = {
                     from: storeMail,
                     to: existUser.email,
-                    subject: 'Verification Code - Fudee',
+                    subject: 'Verification Code - BookStore',
                     html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px;">
                             <h2 style="color: rgb(52, 145, 221); text-align: center;">Mã xác nhận đặt lại mật khẩu</h2>
                             <p style="font-size: 18px; color: #333;">Xin chào bạn,</p>
                             <p style="font-size: 16px; color: #333;">
-                                Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản Fudee của bạn. Vui lòng sử dụng mã xác nhận dưới đây để đặt lại mật khẩu.
+                                Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản Book Store của bạn. Vui lòng sử dụng mã xác nhận dưới đây để đặt lại mật khẩu.
                             </p>
                             <p style="font-size: 16px; color: #333; text-align: center;">
                                 Mã xác nhận của bạn là: <strong>${verificationCode}</strong>, mã sẽ có thời hạn trong vòng 10 phút

@@ -19,4 +19,4 @@ const authorSchema = new Schema(
 );
 
 
-module.exports = mongoose.model(DOCUMENT_NAME, categorySchema);
+module.exports = mongoose.model(DOCUMENT_NAME, authorSchema);

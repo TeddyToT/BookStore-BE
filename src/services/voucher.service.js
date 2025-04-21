@@ -1,6 +1,6 @@
 const voucherModel = require('../models/voucher.model');
 const userModel = require('../models/user.model');
-const { InternalServerError, BadRequestError, ConflictRequestError } = require('../utils/error.response')
+const { InternalServerError, BadRequestError, ConflictRequestError } = require('../utils/errorResponse')
 
 class VouchersService {
     static addVoucher = async ({ name, startDay, endDay, type, value }) => {

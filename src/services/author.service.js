@@ -1,8 +1,8 @@
-const { uploadImage } = require('../utils/uploadImage');
-const { deleteImage } = require('../utils/deleteImage');
+const uploadImage = require('../utils/uploadImage');
+const deleteImage = require('../utils/deleteImage');
 const authorModel = require('../models/author.model');
 const { BadRequestError, InternalServerError } = require('../utils/errorResponse');
-const getData = require('../utils/formatRes');
+const getData = require('../utils/formatResponse');
 
 class AuthorService {
     static getAllAuthors = async () => {

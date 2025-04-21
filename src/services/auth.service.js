@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const userModel = require('../models/user.model')
-const getData = require('../utils/formatRes');
+const getData = require('../utils/formatResponse');
 
 class AuthService {
     static createAccessToken = (payload) => {

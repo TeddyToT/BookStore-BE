@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const { model, Schema } = require('mongoose');
+
 
 const DOCUMENT_NAME = 'Category'
 const COLLECTION_NAME = 'Categorys'
@@ -18,4 +18,4 @@ const categorySchema = new Schema(
 );
 
 
-module.exports = mongoose.model(DOCUMENT_NAME, categorySchema);
+module.exports = model(DOCUMENT_NAME, categorySchema);

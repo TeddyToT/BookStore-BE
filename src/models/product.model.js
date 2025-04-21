@@ -6,8 +6,8 @@ const COLLECTION_NAME = 'Products'
 
 const productSchema = new Schema(
     {
-        image: {
-            type: String,
+        images: {
+            type: [String],
             required: true,
         },
         name: {

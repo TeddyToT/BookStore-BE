@@ -13,7 +13,7 @@ const requestType = process.env.MOMO_REQUEST_TYPE || "payWithMethod";
 const autoCapture = process.env.MOMO_AUTO_CAPTURE === 'true';
 const lang = process.env.MOMO_LANG || "vi";
 
-const { InternalServerError, BadRequestError, ConflictRequestError } = require('../utils/error.response')
+const { InternalServerError, BadRequestError, ConflictRequestError } = require('../utils/errorResponse')
 const _ = require('lodash');
 const orderModel = require('../models/order.model')
 class OrdersServices {
@@ -391,14 +391,7 @@ class OrdersServices {
 
     static paymentOrder = async ({ amount, orderInfo, items, voucher, userId, method, from, name, phone, address, note }) => {
         try {
-            // test momo:
-            // NGUYEN VAN A
-            // 9704 0000 0000 0018
-            // 03/07
-            // OTP
-            // các thông tin đổi để hiện trên Hóa đơn thanh toán: orderInfo, ,amount, orderID,...
-            //Đổi redirectURL, ipnURL theo trang web của mình
-            // var amount = '1000'; // Lượng tiền của hóa  <lượng tiền test ko dc cao quá>
+
             var orderId = partnerCode + new Date().getTime(); // mã Đơn hàng, có thể đổi
             var requestId = orderId;
             // var extraData = `items-${JSON.stringify(items)}+voucher-${voucher}+userId-${userId}+method-${method}+from-${from}+name-${name}+phone-${phone}+address-${address}`; // đây là data thêm của doanh nghiệp (địa chỉ, mã COD,....)

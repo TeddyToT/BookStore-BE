@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const DOCUMENT_NAME = 'Feedback'
+const COLLECTION_NAME = 'Feedbacks'
 const CustomerSchema = new Schema(
     {
         email: String,
