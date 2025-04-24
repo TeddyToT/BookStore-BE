@@ -32,6 +32,11 @@ var userSchema = new Schema({
             message: (props) => `${props.value} is not a valid phone number!`
         }
     },
+    role: {
+        type: String,
+        required: true,
+        enum: ['user', 'admin', 'staff']
+    },
     password:{
         type: String,
         required: true,

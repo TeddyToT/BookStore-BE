@@ -3,6 +3,7 @@ const categoryModel = require("../models/category.model");
 const uploadImage = require("../utils/uploadImage");
 const deleteImage = require("../utils/deleteImage");
 const cartModel = require("../models/cart.model");
+const path = require('path');
 const {
   BadRequestError,
   InternalServerError,
@@ -76,7 +77,16 @@ class ProductService {
       const imageLinks = [];
       if (files && files.length > 0) {
         for (const file of files) {
-          const link = await uploadImage(file.path, cloudinaryFolder);
+          let fileName = file.originalname;
+      
+          // Kiểm tra nếu tên file chứa từ "main"
+          if (fileName.toLowerCase().includes('main')) {
+            fileName = 'main_' + file.filename;
+          }
+      
+          // Thay đổi tên file trong quá trình upload
+          const customFileName = path.parse(fileName).name; // Lấy tên file không có phần mở rộng
+          const link = await uploadImage(file.path, cloudinaryFolder, customFileName);
           imageLinks.push(link);
         }
       }
@@ -99,7 +109,7 @@ class ProductService {
 
   static getProduct = async () => {
     try {
-      const products = await productModel.find({}).populate("categoryId");
+      const products = await productModel.find({}).populate("categoryId").populate("authorId");
 
       // products.forEach(p => {
       //     console.log('{id: ObjectId("' + p.id + '"), type:[' + p.type + ']},')
@@ -116,7 +126,7 @@ class ProductService {
 
   static getProductID = async ({ id }) => {
     try {
-      const product = await productModel.findById(id).populate("categoryId");
+      const product = await productModel.findById(id).populate("categoryId").populate("authorId");
 
       if (!product) {
         return {
@@ -161,7 +171,12 @@ class ProductService {
         if (files && files.length > 0) {
             const cloudinaryFolder = "Book/Product";
             for (const file of files) {
-                const uploadedLink = await uploadImage(file.path, cloudinaryFolder);
+              let fileName = file.originalname;
+
+              if (fileName.toLowerCase().includes('main')) {
+                fileName = 'main_' + file.filename;
+              }
+                const uploadedLink = await uploadImage(file.path, cloudinaryFolder, fileName);
                 newImageLinks.push(uploadedLink);
             }
         }
@@ -257,7 +272,7 @@ class ProductService {
 
   static deleteProduct = async ({ id }) => {
     try {
-      const product = await productModel.findByIdAndDelete(id);
+      const product = await productModel.findById(id);
 
       if (!product) {
         return {
@@ -265,6 +280,9 @@ class ProductService {
           message: "Product not found",
         };
       }
+
+      await productModel.findByIdAndDelete(id);
+
 
       // Cập nhật cart: gỡ những item có product bị xoá
       const carts = await cartModel.find({ "items.product": product.id });
@@ -279,11 +297,19 @@ class ProductService {
       }
 
       // Xoá ảnh trên Cloudinary
-      const linkArr = product.image.split("/");
-      const imgName = linkArr[linkArr.length - 1];
-      const imgID = imgName.split(".")[0];
-      const result = "Book/Product/" + imgID;
-      await deleteImage(result);
+      if (Array.isArray(product.images)) {
+        for (const imageUrl of product.images) {
+          try {
+            const linkArr = imageUrl.split("/");
+            const imgName = linkArr[linkArr.length - 1];
+            const imgID = imgName.split(".")[0];
+            const result = "Book/Product/" + imgID;
+            await deleteImage(result);
+          } catch (err) {
+            console.warn("Xoá ảnh thất bại:", imageUrl);
+          }
+        }
+      }
 
       return {
         success: true,

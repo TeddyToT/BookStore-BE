@@ -19,6 +19,15 @@ class FeedbackController {
     }
   };
 
+  getFeedbackById = async (req, res, next) => {
+    try {
+        return res.status(201).json(await FeedbackService.getFeedbackById())
+
+    } catch (error) {
+      next(error);
+    }
+  };
+
   updateFeedbackStatus = async (req, res, next) => {
     try {
       const { feedbackId, isHandle } = req.body;

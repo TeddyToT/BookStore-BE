@@ -14,7 +14,7 @@ const CategoryController = require('../../controllers/category.controller')
 const AuthorController = require('../../controllers/author.controller');
 const shopController = require('../../controllers/shop.controller');
 const BannerController = require('../../controllers/banner.controller');
-
+const FeedbackController = require ('../../controllers/feedback.controller')
 // get verification code
 router.post('/verification', AccessController.getVerificationCode)
 //check expire verification code
@@ -109,5 +109,12 @@ router.post('/banner', upload.array('images'), BannerController.addBanner);
 router.put('/banner', upload.array('images'), BannerController.updateBanner);
 router.delete('/banner/image', BannerController.deleteImage);
 router.delete('/banner', BannerController.deleteAllBanners);
+
+//feedback
+router.get('/feedbacks', FeedbackController.getAllFeedback)
+router.get('/feedbacks/:id', FeedbackController.getFeedbackById)
+router.post('/feedbacks', FeedbackController.addFeedback)
+router.put('/feedbacks/:id', FeedbackController.updateFeedbackStatus)
+
 
 module.exports = router

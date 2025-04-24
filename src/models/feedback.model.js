@@ -1,13 +1,13 @@
-const { model, Schema } = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
+const DOCUMENT_NAME = 'Feedback'
+const COLLECTION_NAME = 'Feedback'
 
-const DOCUMENT_NAME = "Feedback";
-const COLLECTION_NAME = "Feedback";
 
 const feedbackSchema = new Schema(
   {
-    feedbackId: { type: String, required: true, unique: true },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String },
@@ -18,4 +18,4 @@ const feedbackSchema = new Schema(
   { timestamps: true, collection: COLLECTION_NAME }
 );
 
-module.exports = model(DOCUMENT_NAME, feedbackSchema);
+module.exports = mongoose.model(DOCUMENT_NAME, feedbackSchema);

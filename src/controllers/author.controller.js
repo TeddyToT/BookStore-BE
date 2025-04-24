@@ -39,15 +39,21 @@ class AuthorController {
 
     updateAuthor = async (req, res, next) => {
         try {
-            return res.status(201).json(await authorService.updateAuthor(req.params, req.body));
+            const { id } = req.params;
+            const { name } = req.body; 
+            const file = req.file; 
+    
+            const updatedAuthor = await authorService.updateAuthor(id, file, { name });
+    
+            return res.status(201).json(updatedAuthor);
         } catch (error) {
-            next(error);
+            next(error); 
         }
     }
-
+    
     deleteAuthor = async (req, res, next) => {
         try {
-            return res.status(201).json(await authorService.deleteAuthor(req.params));
+            return res.status(201).json(await authorService.deleteAuthor(req.params.id));
         } catch (error) {
             next(error);
         }

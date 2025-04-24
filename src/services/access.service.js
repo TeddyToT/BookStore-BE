@@ -19,7 +19,7 @@ const generateVerificationCode = () => {
 }
 
 class AccessService {
-    static signup = async ({ name, email, address, phone, password }) => {
+    static signup = async ({ name, email, address, phone, password, role }) => {
         try {
             const checkEmail = await isInvalidEmail(email)
             if (checkEmail) {
@@ -49,6 +49,7 @@ class AccessService {
                 "address": address,
                 "phone": phone || null,
                 "password": passwordHash,
+                "role": role
             })
 
             const payload = { id: newUser._id, email, phone };
@@ -67,7 +68,7 @@ class AccessService {
                 var mailoptions = {
                     from: storeMail,
                     to: newUser.email,
-                    subject: 'Đăng ký thành công - Bookstore',
+                    subject: 'Đăng ký thành công - Book Store',
                     html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px;">
                             <h2 style="color:rgb(52, 145, 221); text-align: center;">Welcome to Book Store!</h2>
@@ -102,7 +103,7 @@ class AccessService {
             }
             return {
                 success: true,
-                user: getData({ fields: ['_id', 'name', 'email', 'address', 'phone'], object: newUser }),
+                user: getData({ fields: ['_id', 'name', 'email', 'address', 'phone', 'role'], object: newUser }),
                 accessToken: accessToken
             }
         } catch (error) {
@@ -156,7 +157,7 @@ class AccessService {
 
             return {
                 success: true,
-                user: getData({ fields: ['_id', 'email', 'phone', 'address', 'name', 'birthday'], object: existUser }),
+                user: getData({ fields: ['_id', 'email', 'phone', 'address', 'name', 'birthday', 'role'], object: existUser }),
                 accessToken: accessToken,
             }
         } catch (error) {
@@ -191,7 +192,7 @@ class AccessService {
                 var mailoptions = {
                     from: storeMail,
                     to: existUser.email,
-                    subject: 'Verification Code - BookStore',
+                    subject: 'Verification Code - Book Store',
                     html: `
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px;">
                             <h2 style="color: rgb(52, 145, 221); text-align: center;">Mã xác nhận đặt lại mật khẩu</h2>

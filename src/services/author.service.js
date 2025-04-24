@@ -1,6 +1,7 @@
 const uploadImage = require('../utils/uploadImage');
 const deleteImage = require('../utils/deleteImage');
 const authorModel = require('../models/author.model');
+const productModel = require('../models/product.model')
 const { BadRequestError, InternalServerError } = require('../utils/errorResponse');
 const getData = require('../utils/formatResponse');
 
@@ -152,7 +153,7 @@ class AuthorService {
 
             await productModel.updateMany(
                 { authorId: id }, 
-                { $set: { authorId: "unknown" } }
+                { $set: { authorId: "68096cf38883b7dab92a925b" } }
             );
 
             await authorModel.findByIdAndDelete(id);
