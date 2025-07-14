@@ -18,7 +18,6 @@ const productSchema = new Schema(
         },
         type: [
             {
-                _id: false,
                 kind: {
                     type: String,
                     required: true,

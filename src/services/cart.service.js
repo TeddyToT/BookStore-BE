@@ -58,28 +58,38 @@ class CartService {
         }
     }
 
-    static getCartByUserId = async ({ userId }) => {
-        try {
-            const cart = await cartModel.findOne({ userId: userId }).populate({
+static getCartByUserId = async ({ userId }) => {
+    try {
+        const resolvedUserId = typeof userId === 'object' && userId !== null ? userId._id : userId;
+
+        console.log(typeof userId, resolvedUserId); 
+
+        const cart = await cartModel.findOne({ userId: resolvedUserId })
+            .populate({
                 path: "userId",
                 select: '_id name email address phone'
-            }).populate('items.product')
+            })
+            .populate('items.product');
 
-            if (!cart) {
-                return {
-                    success: false,
-                    message: "wrong cart"
-                }
-            }
-
-            return cart
-        } catch (error) {
+        if (!cart) {
             return {
                 success: false,
-                message: error.message
-            }
+                message: "Không tìm thấy giỏ hàng cho user"
+            };
         }
+
+        return {
+            success: true,
+            data: cart
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: error.message
+        };
     }
+}
+
 
     static addItemCart = async ({ userId, productId, kind, quantity, note }) => {
         try {

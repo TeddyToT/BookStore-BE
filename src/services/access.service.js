@@ -171,10 +171,12 @@ class AccessService {
     static getVerificationCode = async ({ email }) => {
         try {
             const existUser = await userModel.findOne({ email: email })
-            if (!existUser) {
+            console.log('Email nhận vào:', email);
+            if (!existUser || !existUser.email) {
+                console.log("user not founDDDD");
                 return {
                     success: false,
-                    message: "User don't exist"
+                    message: "User doesn't exist"
                 }
             }
 
@@ -225,7 +227,7 @@ class AccessService {
                 const currentDate = new Date();
                 const expireDate = new Date(currentDate.getTime() + (10 * 60 * 1000))
                 const newForget = new ForgetModel({
-                    user: existUser._id,
+                    userId: existUser._id,
                     verificationCode: verificationCode,
                     expiredDate: expireDate
                 })
@@ -253,7 +255,7 @@ class AccessService {
                 }
             }
 
-            const existForgetPassword = await ForgetModel.find({ user: existEmail._id })
+            const existForgetPassword = await ForgetModel.find({ userId: existEmail._id })
             if (!existForgetPassword) {
                 return {
                     success: false,
@@ -319,7 +321,7 @@ class AccessService {
         }
     }
 
-    static updateInfo = async ({ oldPassword, newPassword, name, phone, email, address }, { userId }) => {
+    static updateInfo = async ({  name, phone, email, address }, { userId }) => {
         try {
             const existUser = await userModel.findById(userId)
             if (!existUser) {
@@ -338,20 +340,7 @@ class AccessService {
                 }
             }
 
-            const check = await bcrypt.compare(oldPassword, existUser.password)
 
-            if (oldPassword && newPassword) {
-                if (!check) {
-                    return {
-                        success: false,
-                        message: "wrong old password"
-                    }
-                }
-                else {
-                    const hash = bcrypt.hashSync(newPassword, 10)
-                    existUser.password = hash
-                }
-            }
 
             if (name) {
                 existUser.name = name

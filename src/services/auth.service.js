@@ -5,7 +5,7 @@ const getData = require('../utils/formatResponse');
 class AuthService {
     static createAccessToken = (payload) => {
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '30d'
+            expiresIn: '1d'
         })
         return accessToken
     }
